@@ -1,4 +1,3 @@
-// Função que aplica o fundo com base na imagem selecionada
 function gerarImagem(caminho) {
   document.body.style.backgroundImage = `url(${caminho})`;
   document.body.style.backgroundSize = "cover";
@@ -6,36 +5,46 @@ function gerarImagem(caminho) {
   document.body.style.backgroundRepeat = "no-repeat";
 }
 
-// Lê o JSON com os arquivos de imagem e preenche o <select>
 document.addEventListener("DOMContentLoaded", () => {
   const select = document.getElementById("background");
+  const carrosselContainer = document.querySelector(".carrossel-container");
+  let imagens = [];
+  let indice = 0;
 
   fetch("imagens/imagens.json")
     .then(response => response.json())
-    .then(imagens => {
-      imagens.forEach((nome, index) => {
-        if (nome.endsWith(".png")) {
-          const option = document.createElement("option");
-          option.value = `imagens/${nome}`;
-          option.textContent = `Imagem ${index + 1}`;
-          select.appendChild(option);
-        }
+    .then(lista => {
+      imagens = lista.filter(nome => nome.endsWith(".png"));
+      
+      imagens.forEach(nome => {
+        const option = document.createElement("option");
+        option.value = `imagens/${nome}`;
+        option.textContent = " ";
+        select.appendChild(option);
+
+        const img = document.createElement("img");
+        img.src = `imagens/${nome}`;
+        carrosselContainer.appendChild(img);
       });
 
-      // Aplica a primeira imagem como fundo padrão (opcional)
       if (select.options.length > 0) {
         select.selectedIndex = 0;
         gerarImagem(select.value);
       }
-    })
-    .catch(error => {
-      console.error("Erro ao carregar imagens:", error);
     });
 
-  // Atualiza o fundo ao mudar a seleção
   select.addEventListener("change", () => {
     gerarImagem(select.value);
   });
+
+  // Controles do carrossel
+  document.getElementById("prev").addEventListener("click", () => {
+    indice = (indice - 1 + imagens.length) % imagens.length;
+    carrosselContainer.style.transform = `translateX(-${indice * 100}%)`;
+  });
+
+  document.getElementById("next").addEventListener("click", () => {
+    indice = (indice + 1) % imagens.length;
+    carrosselContainer.style.transform = `translateX(-${indice * 100}%)`;
+  });
 });
-
-

@@ -1,1 +1,47 @@
+body {
+  font-family: sans-serif;
+  background-color: #f2f2f2;
+  display: flex;
+  justify-content: center;
+  padding: 40px;
+}
+
+.container {
+  background-color: white;
+  padding: 20px;
+  border-radius: 12px;
+  width: 600px;
+  box-shadow: 0 0 10px rgba(0,0,0,0.1);
+}
+
+label, input, textarea, select, button {
+  display: block;
+  margin-top: 10px;
+  width: 100%;
+}
+
+button {
+  margin-top: 20px;
+  padding: 10px;
+  background-color: #ff69b4;
+  border: none;
+  color: white;
+  cursor: pointer;
+  font-weight: bold;
+}
+
+#canvas {
+  margin-top: 20px;
+  border: 1px solid #ccc;
+}
+
+#baixarBtn {
+  display: none;
+  margin-top: 10px;
+  text-align: center;
+  padding: 8px;
+  background-color: #4CAF50;
+  color: white;
+  text-decoration: none;
+}
 

@@ -1,4 +1,4 @@
-function gerarImagem("https://dedicatorias-web.github.io/dedicatorias-web/");
+function gerarImagem(https://dedicatorias-web.github.io/dedicatorias-web/);
 ) {
   document.body.style.backgroundImage = `url(${caminho})`;
   document.body.style.backgroundSize = "cover";

@@ -1,1 +1,40 @@
+name: Deploy to GitHub Pages
 
+# Roda esta ação toda vez que você envia código para o branch 'main'
+on:
+  push:
+    branches: [ main ]
+
+# Permissões necessárias para o job
+permissions:
+  contents: read
+  pages: write
+  id-token: write
+
+jobs:
+  build-and-deploy:
+    runs-on: ubuntu-latest # Roda em uma máquina virtual Linux
+    steps:
+      - name: Checkout 🛎️
+        uses: actions/checkout@v3 # Baixa o seu código para a máquina virtual
+
+      - name: Setup Node.js ⚙️
+        uses: actions/setup-node@v3 # Instala o Node.js
+        with:
+          node-version: '18' # Usa a versão 18 do Node.js
+          cache: 'npm'
+
+      - name: Generate Image List 📜
+        run: node scripts/generate-list.js # RODA O NOSSO ROBÔ!
+
+      - name: Setup Pages 🛠️
+        uses: actions/configure-pages@v3
+
+      - name: Upload artifact 📦
+        uses: actions/upload-pages-artifact@v2
+        with:
+          path: './public' # Define a pasta 'public' como a fonte do site
+
+      - name: Deploy to GitHub Pages 🚀
+        id: deployment
+        uses: actions/deploy-pages@v2

@@ -1,12 +1,118 @@
 <!DOCTYPE html>
 <html lang="pt-br">
 <head>
-  <meta charset="UTF-8">
-  <title>Dedicatórias</title>
-  <link rel="stylesheet" href="style.css">
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Protótipo - Envio de Flores</title>
+    <style>
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+            background-color: #fafafa;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            margin: 0;
+            color: #262626;
+        }
+        .container {
+            background-color: white;
+            padding: 25px 40px;
+            border-radius: 12px;
+            border: 1px solid #dbdbdb;
+            text-align: center;
+            width: 90%;
+            max-width: 380px;
+        }
+        h1 {
+            font-size: 22px;
+            margin-bottom: 10px;
+        }
+        p {
+            color: #8e8e8e;
+            font-size: 14px;
+            margin-bottom: 20px;
+        }
+        /* Imagem de flores que será exibida */
+        #flower-image {
+            width: 100%;
+            border-radius: 8px;
+            margin-bottom: 20px;
+        }
+        /* Botão principal com estilo parecido ao do Instagram */
+        .button {
+            background-color: #0095f6;
+            color: white;
+            border: none;
+            padding: 10px 20px;
+            border-radius: 8px;
+            font-size: 16px;
+            font-weight: 600;
+            cursor: pointer;
+            width: 100%;
+            transition: background-color 0.3s;
+        }
+        .button:hover {
+            background-color: #1877f2;
+        }
+    </style>
 </head>
 <body>
-  <h1>Bem-vindo ao novo site de dedicatórias!</h1>
-  <p>Vamos construir juntos algo bonito e funcional 🎨</p>
+
+<div class="container">
+    <h1>Enviar Flores</h1>
+    <p>Gostou desta imagem? Clique no botão para enviar como uma mensagem no Instagram.</p>
+
+    <img id="flower-image" src="https://images.pexels.com/photos/1086329/pexels-photo-1086329.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=1" alt="Flores Rosas">
+
+    <button id="send-button" class="button">Enviar ao Instagram</button>
+</div>
+
+<script>
+    const sendButton = document.getElementById('send-button');
+    
+    // --- CONFIGURAÇÕES DO PROTÓTIPO ---
+    
+    // 1. Defina a URL da imagem de flores que será enviada.
+    const flowerImageUrl = 'https://images.pexels.com/photos/1086329/pexels-photo-1086329.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=1';
+    
+    // 2. Defina o nome de usuário do Instagram que receberá a mensagem.
+    const instagramUsername = 'instagram'; // <-- TROQUE AQUI pelo @ de destino
+
+    // 3. Defina a mensagem padrão que será copiada.
+    const defaultMessage = 'Olá! Achei que você gostaria de ver estas flores. Tenha um ótimo dia!';
+
+    // Ação do botão
+    sendButton.addEventListener('click', function() {
+        
+        // Copia a mensagem padrão para a área de transferência do usuário.
+        navigator.clipboard.writeText(defaultMessage).then(() => {
+            
+            // Avisa o usuário sobre os próximos passos.
+            alert(
+                'A mensagem foi copiada!\n\n' +
+                'O Instagram será aberto. Para enviar, anexe a imagem (que você pode salvar abaixo) e cole a mensagem.'
+            );
+
+            // Força o download da imagem para o dispositivo do usuário.
+            const link = document.createElement('a');
+            link.href = flowerImageUrl;
+            link.download = 'flores-para-voce.jpg'; // Nome do arquivo que será salvo.
+            document.body.appendChild(link);
+            link.click();
+            document.body.removeChild(link);
+            
+            // Abre o link direto para a conversa no Instagram após um breve intervalo.
+            setTimeout(() => {
+                window.open(`https://ig.me/m/${instagramUsername}`, '_blank');
+            }, 1000);
+
+        }).catch(err => {
+            alert('Erro ao copiar mensagem. Por favor, tente novamente.');
+            console.error('Erro de clipboard:', err);
+        });
+    });
+</script>
+
 </body>
 </html>

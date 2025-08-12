@@ -1,6 +1,6 @@
 // Importa a lista de imagens que foi gerada automaticamente
 import { imageDatabase } from './imageList.js';
-
+ 
 // --- O resto do código é o que já tínhamos ---
 
 // 1. Sorteia um nome de imagem da lista importada

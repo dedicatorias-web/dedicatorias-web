@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Protótipo - Envio de Flores</title>
+    <title>Protótipo - Login Instagram</title>
     <style>
         body {
             font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
@@ -33,13 +33,11 @@
             font-size: 14px;
             margin-bottom: 20px;
         }
-        /* Imagem de flores que será exibida */
         #flower-image {
             width: 100%;
             border-radius: 8px;
             margin-bottom: 20px;
         }
-        /* Botão principal com estilo parecido ao do Instagram */
         .button {
             background-color: #0095f6;
             color: white;
@@ -61,7 +59,7 @@
 
 <div class="container">
     <h1>Enviar Flores</h1>
-    <p>Gostou desta imagem? Clique no botão para enviar como uma mensagem no Instagram.</p>
+    <p>Clique no botão para acessar seu Instagram e compartilhar esta inspiração.</p>
 
     <img id="flower-image" src="https://images.pexels.com/photos/1086329/pexels-photo-1086329.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=1" alt="Flores Rosas">
 
@@ -70,47 +68,14 @@
 
 <script>
     const sendButton = document.getElementById('send-button');
-    
-    // --- CONFIGURAÇÕES DO PROTÓTIPO ---
-    
-    // 1. Defina a URL da imagem de flores que será enviada.
-    const flowerImageUrl = 'https://images.pexels.com/photos/1086329/pexels-photo-1086329.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=1';
-    
-    // 2. Defina o nome de usuário do Instagram que receberá a mensagem.
-    const instagramUsername = 'instagram'; // <-- TROQUE AQUI pelo @ de destino
 
-    // 3. Defina a mensagem padrão que será copiada.
-    const defaultMessage = 'Olá! Achei que você gostaria de ver estas flores. Tenha um ótimo dia!';
-
-    // Ação do botão
+    // Adiciona o evento de clique ao botão.
     sendButton.addEventListener('click', function() {
         
-        // Copia a mensagem padrão para a área de transferência do usuário.
-        navigator.clipboard.writeText(defaultMessage).then(() => {
-            
-            // Avisa o usuário sobre os próximos passos.
-            alert(
-                'A mensagem foi copiada!\n\n' +
-                'O Instagram será aberto. Para enviar, anexe a imagem (que você pode salvar abaixo) e cole a mensagem.'
-            );
-
-            // Força o download da imagem para o dispositivo do usuário.
-            const link = document.createElement('a');
-            link.href = flowerImageUrl;
-            link.download = 'flores-para-voce.jpg'; // Nome do arquivo que será salvo.
-            document.body.appendChild(link);
-            link.click();
-            document.body.removeChild(link);
-            
-            // Abre o link direto para a conversa no Instagram após um breve intervalo.
-            setTimeout(() => {
-                window.open(`https://ig.me/m/${instagramUsername}`, '_blank');
-            }, 1000);
-
-        }).catch(err => {
-            alert('Erro ao copiar mensagem. Por favor, tente novamente.');
-            console.error('Erro de clipboard:', err);
-        });
+        // Ação: Abrir o site do Instagram em uma nova aba.
+        // O usuário poderá fazer o login ou, se já estiver logado, verá seu feed.
+        window.open('https://www.instagram.com', '_blank');
+        
     });
 </script>
 

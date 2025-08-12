@@ -32,7 +32,7 @@ jobs:
         uses: actions/setup-node@v4
         with:
           node-version: '20'
-          cache: 'npm'
+          # A LINHA 'cache: npm' FOI REMOVIDA DAQUI
 
       - name: Gerar a lista de imagens
         run: node scripts/generate-list.js

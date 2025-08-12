@@ -1,1 +1,11 @@
-
+{
+  "name": "dedicatorias-web",
+  "version": "1.0.0",
+  "description": "Um site de dedicatórias com imagens.",
+  "type": "module",
+  "scripts": {
+    "generate": "node scripts/generate-list.js"
+  },
+  "author": "",
+  "license": "ISC"
+}

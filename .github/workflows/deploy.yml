@@ -1,40 +1,51 @@
-name: Deploy to GitHub Pages
+# Nome do Workflow
+name: Build and Deploy to GitHub Pages
 
-# Roda esta ação toda vez que você envia código para o branch 'main'
+# Define o gatilho para a ação (quando houver um push na branch main)
 on:
   push:
     branches: [ main ]
 
-# Permissões necessárias para o job
+# Permissões necessárias para que a ação possa publicar no GitHub Pages
 permissions:
   contents: read
   pages: write
   id-token: write
 
-jobs:
-  build-and-deploy:
-    runs-on: ubuntu-latest # Roda em uma máquina virtual Linux
-    steps:
-      - name: Checkout 🛎️
-        uses: actions/checkout@v3 # Baixa o seu código para a máquina virtual
+# Define o ambiente de deploy para o GitHub Pages
+concurrency:
+  group: "pages"
+  cancel-in-progress: true
 
-      - name: Setup Node.js ⚙️
-        uses: actions/setup-node@v3 # Instala o Node.js
+jobs:
+  # Job único para construir e publicar o site
+  deploy:
+    environment:
+      name: github-pages
+      url: ${{ steps.deployment.outputs.page_url }}
+    runs-on: ubuntu-latest
+    steps:
+      - name: Baixar o código do repositório
+        uses: actions/checkout@v4
+
+      - name: Configurar o ambiente Node.js
+        uses: actions/setup-node@v4
         with:
-          node-version: '18' # Usa a versão 18 do Node.js
+          node-version: '20'
           cache: 'npm'
 
-      - name: Generate Image List 📜
-        run: node scripts/generate-list.js # RODA O NOSSO ROBÔ!
+      - name: Gerar a lista de imagens
+        run: node scripts/generate-list.js
 
-      - name: Setup Pages 🛠️
-        uses: actions/configure-pages@v3
+      - name: Configurar o GitHub Pages
+        uses: actions/configure-pages@v5
 
-      - name: Upload artifact 📦
-        uses: actions/upload-pages-artifact@v2
+      - name: Construir o artefato para o site
+        uses: actions/upload-pages-artifact@v3
         with:
-          path: './public' # Define a pasta 'public' como a fonte do site
+          # Define a pasta que será publicada
+          path: './public'
 
-      - name: Deploy to GitHub Pages 🚀
+      - name: Publicar no GitHub Pages
         id: deployment
-        uses: actions/deploy-pages@v2
+        uses: actions/deploy-pages@v4

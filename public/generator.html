@@ -1,94 +1,110 @@
 <!DOCTYPE html>
-
 <html lang="pt-br">
 <head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Gerador de Imagens</title>
-<style>
-body {
-font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif;
-display: flex;
-justify-content: center;
-align-items: center;
-min-height: 100vh;
-background-color: #f0f2f5;
-margin: 0;
-}
-.container {
-background-color: white;
-padding: 30px;
-border-radius: 12px;
-box-shadow: 0 6px 20px rgba(0, 0, 0, 0.1);
-text-align: center;
-max-width: 600px;
-width: 90%;
-}
-h1 {
-margin-bottom: 20px;
-color: #28a745; /* Um tom de verde /
-}
-label {
-display: block;
-margin-bottom: 8px;
-font-weight: bold;
-}
-textarea {
-width: calc(100% - 20px);
-padding: 10px;
-margin-bottom: 20px;
-border: 1px solid #ccc;
-border-radius: 5px;
-font-size: 16px;
-min-height: 80px;
-}
-button {
-padding: 12px 25px;
-font-size: 18px;
-border-radius: 8px;
-cursor: pointer;
-transition: background-color 0.3s;
-margin-top: 10px;
-}
-#generate-button {
-background-color: #007bff;
-color: white;
-border: none;
-}
-#generate-button:hover {
-background-color: #0056b3;
-}
-#share-button {
-background-color: #25d366; / Verde do WhatsApp */
-color: white;
-border: none;
-margin-left: 10px;
-}
-#share-button:hover {
-background-color: #19a950;
-}
-canvas {
-margin: 20px auto;
-border: 1px solid #ccc;
-display: block;
-max-width: 100%;
-height: auto;
-}
-</style>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Gerador de Imagens</title>
+
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Dancing+Script:wght@700&display=swap" rel="stylesheet">
+
+    <style>
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            min-height: 100vh;
+            background-color: #f0f2f5;
+            margin: 20px;
+            box-sizing: border-box;
+        }
+        .container {
+            background-color: white;
+            padding: 30px;
+            border-radius: 12px;
+            box-shadow: 0 6px 20px rgba(0, 0, 0, 0.1);
+            text-align: center;
+            max-width: 600px;
+            width: 90%;
+        }
+        h1 {
+            margin-bottom: 20px;
+            color: #28a745; /* Um tom de verde */
+            font-family: 'Dancing Script', cursive; /* Usa a fonte no título também */
+            font-size: 2.5em;
+        }
+        label {
+            display: block;
+            margin-bottom: 8px;
+            font-weight: bold;
+        }
+        textarea {
+            width: calc(100% - 20px);
+            padding: 10px;
+            margin-bottom: 20px;
+            border: 1px solid #ccc;
+            border-radius: 5px;
+            font-size: 16px;
+            min-height: 80px;
+        }
+        .buttons-container {
+            display: flex;
+            justify-content: center;
+            gap: 15px; /* Espaçamento entre os botões */
+            flex-wrap: wrap; /* Permite que os botões quebrem a linha em telas pequenas */
+        }
+        button {
+            padding: 12px 25px;
+            font-size: 18px;
+            border-radius: 25px; /* Bordas mais arredondadas */
+            cursor: pointer;
+            transition: all 0.3s;
+            border: none;
+            font-weight: bold;
+        }
+        #generate-button {
+            background-color: #007bff;
+            color: white;
+        }
+        #generate-button:hover {
+            background-color: #0056b3;
+            transform: translateY(-2px);
+        }
+        #share-button {
+            background-color: #25d366; /* Verde do WhatsApp */
+            color: white;
+        }
+        #share-button:hover {
+            background-color: #19a950;
+            transform: translateY(-2px);
+        }
+        canvas {
+            margin: 20px auto;
+            border: 1px solid #ddd;
+            display: block;
+            max-width: 100%;
+            height: auto;
+            border-radius: 8px;
+        }
+    </style>
 </head>
 <body>
-<div class="container">
-<h1>Gerador de Dedicatórias</h1>
+    <div class="container">
+        <h1>Gerador de Dedicatórias</h1>
+        
+        <label for="message">Mensagem:</label>
+        <textarea id="message" placeholder="Escreva sua mensagem aqui...">Este é apenas um teste</textarea>
+        
+        <div class="buttons-container">
+            <button id="generate-button">Gerar Imagem</button>
+            <button id="share-button" style="display:none;">Compartilhar</button>
+        </div>
+        
+        <canvas id="generated-image-canvas" width="600" height="400" style="display:none;"></canvas>
+    </div>
 
-    <label for="message">Mensagem:</label>
-    <textarea id="message">Este é apenas um teste</textarea>
-    
-    <button id="generate-button">Gerar Imagem</button>
-    <canvas id="generated-image-canvas" width="500" height="300" style="display:none;"></canvas>
-    
-    <button id="share-button" style="display:none;">Compartilhar Imagem</button>
-</div>
-
-<script type="module" src="js/main.js"></script>
+    <script type="module" src="js/main.js"></script>
 </body>
 </html>

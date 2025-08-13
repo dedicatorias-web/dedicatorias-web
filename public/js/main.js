@@ -1,52 +1,58 @@
-// Importa a lista de imagens que foi gerada automaticamente
-import { imageDatabase } from './imageList.js';
-
-// --- LÓGICA PARA EXIBIR A IMAGEM ---
-
-// 1. Sorteia um nome de imagem da lista
-const randomIndex = Math.floor(Math.random() * imageDatabase.length);
-const randomImageFile = imageDatabase[randomIndex]; // Ex: 'imagens/foto.png'
-
-// 2. Monta o caminho final, garantindo que o nome do repositório está incluído
-// Isso corrige o problema da imagem não aparecer no GitHub Pages
-const basePath = window.location.pathname.endsWith('/') ? window.location.pathname.slice(0, -1) : window.location.pathname;
-const finalImageSrc = `${basePath}/${randomImageFile}`;
-
-// 3. Encontra o elemento da imagem e define o caminho (src)
-const imageElement = document.getElementById('imagem-aleatoria');
-if (imageElement) {
-    imageElement.src = finalImageSrc;
-} else {
-    console.error('Elemento da imagem com id "imagem-aleatoria" não foi encontrado.');
-}
-
-// --- LÓGICA DO BOTÃO DE COMPARTILHAR ---
-
+// Encontra os elementos na página
+const uploadInput = document.getElementById('upload-image');
+const imagePreview = document.getElementById('image-preview');
 const shareButton = document.getElementById('share-button');
 
-if (shareButton) {
-    shareButton.addEventListener('click', () => {
-        // Coloque aqui a sua lógica de compartilhamento que já existia.
-        // Por exemplo, para compartilhar a imagem no WhatsApp:
-        const title = 'Uma imagem para você!';
-        const urlParaCompartilhar = window.location.href;
+let currentFile = null;
 
-        // Verifica se o navegador suporta a API de compartilhamento
-        if (navigator.share) {
-            navigator.share({
-                title: title,
-                text: 'Veja esta imagem incrível!',
-                url: urlParaCompartilhar,
-            })
-            .then(() => console.log('Compartilhado com sucesso!'))
-            .catch((error) => console.log('Erro ao compartilhar:', error));
-        } else {
-            // Fallback para navegadores que não suportam a API (ex: desktop)
-            // Abre o link do WhatsApp Web com uma mensagem
-            const textoWhatsApp = encodeURIComponent(`Veja esta imagem incrível: ${urlParaCompartilhar}`);
-            window.open(`https://api.whatsapp.com/send?text=${textoWhatsApp}`, '_blank');
+// Esta função é chamada quando o usuário seleciona um arquivo
+uploadInput.addEventListener('change', (event) => {
+    // Pega o primeiro arquivo selecionado
+    const file = event.target.files[0];
+
+    if (file && file.type.startsWith('image/')) {
+        currentFile = file; // Guarda o arquivo para usar no compartilhamento
+
+        // Mostra uma pré-visualização da imagem na página
+        const reader = new FileReader();
+        reader.onload = (e) => {
+            imagePreview.src = e.target.result;
+            imagePreview.style.display = 'block'; // Mostra o elemento da imagem
+        };
+        reader.readAsDataURL(file);
+
+        shareButton.disabled = false; // Ativa o botão de compartilhar
+    } else {
+        // Se nenhum arquivo for selecionado ou não for uma imagem
+        currentFile = null;
+        imagePreview.style.display = 'none';
+        shareButton.disabled = true;
+    }
+});
+
+// Esta função é chamada quando o usuário clica em "Compartilhar"
+shareButton.addEventListener('click', async () => {
+    if (!currentFile) {
+        alert("Por favor, selecione uma imagem primeiro.");
+        return;
+    }
+
+    // Verifica se o navegador suporta o compartilhamento de arquivos
+    if (navigator.share && navigator.canShare({ files: [currentFile] })) {
+        try {
+            // Tenta compartilhar o ARQUIVO da imagem
+            await navigator.share({
+                title: 'Olha essa imagem!',
+                text: 'Enviada através do Dedicatória Web',
+                files: [currentFile],
+            });
+            console.log('Arquivo compartilhado com sucesso!');
+        } catch (error) {
+            console.error('Erro ao compartilhar:', error);
         }
-    });
-} else {
-    console.error('Botão com id "share-button" não foi encontrado.');
-}
+    } else {
+        // Plano B: se o navegador não suportar o compartilhamento de arquivos
+        alert("Seu navegador não suporta o compartilhamento direto de arquivos. Tente em um celular.");
+        console.log("Web Share API para arquivos não suportada.");
+    }
+});

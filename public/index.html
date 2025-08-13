@@ -3,13 +3,14 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Compartilhar Imagem</title>
+    <title>Dedicatórias Web</title>
     <style>
         body {
             font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif;
             display: flex;
             justify-content: center;
             align-items: center;
+            flex-direction: column;
             min-height: 100vh;
             background-color: #f0f2f5;
             margin: 20px;
@@ -24,25 +25,13 @@
             max-width: 500px;
             width: 100%;
         }
-        /* Estilo para o botão de upload */
-        input[type="file"] {
-            display: none; /* Escondemos o input padrão */
-        }
-        .upload-label {
-            display: inline-block;
-            padding: 12px 25px;
-            background-color: #007bff;
-            color: white;
-            border-radius: 25px;
-            cursor: pointer;
-            font-weight: bold;
-            margin-bottom: 20px;
-        }
         img {
             max-width: 100%;
             height: auto;
             border-radius: 8px;
             margin-bottom: 20px;
+            min-height: 200px; /* Evita que o layout "pule" enquanto a imagem carrega */
+            background-color: #eee;
         }
         button {
             background-color: #25D366; /* Verde do WhatsApp */
@@ -55,23 +44,15 @@
             font-weight: bold;
             transition: background-color 0.3s;
         }
-        button:disabled {
-            background-color: #999;
-            cursor: not-allowed;
-        }
     </style>
 </head>
 <body>
     <div class="container">
-        <h1>Compartilhe uma Imagem</h1>
-        <p>Selecione uma imagem do seu dispositivo e compartilhe diretamente no WhatsApp.</p>
-
-        <label for="upload-image" class="upload-label">Escolher Imagem</label>
-        <input type="file" id="upload-image" accept="image/*">
+        <h1>Uma imagem especial para você!</h1>
         
-        <img id="image-preview" src="" alt="Pré-visualização da imagem" style="display:none;">
+        <img id="random-image" src="" alt="Imagem aleatória">
         
-        <button id="share-button" disabled>Compartilhar 🚀</button>
+        <button id="share-button">Compartilhar Imagem 🚀</button>
     </div>
     
     <script type="module" src="js/main.js"></script>
